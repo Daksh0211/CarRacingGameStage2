@@ -24,13 +24,10 @@ class Game {
       if(playerCountRef.exists()){
         playerCount = playerCountRef.val();
         player.getCount();
-        player.distance = 0 ;
       }
       form = new Form()
       form.display();
     }
-
-
 
     car1 = createSprite(100,200);
     car1.addImage("car1",car1_img);
@@ -47,7 +44,8 @@ class Game {
     form.hide();
     
     Player.getPlayerInfo();
-    
+    Player.getCarsAtEnd() ;
+
     if(allPlayers !== undefined){
       background(rgb(198,135,103));
       image(track, 0,-displayHeight*4,displayWidth, displayHeight*5);
@@ -71,11 +69,13 @@ class Game {
         y = displayHeight - allPlayers[plr].distance;
         cars[index-1].x = x;
         cars[index-1].y = y;
+       // console.log(index, player.index)
 
+       
         if (index === player.index){
-          stroke(10) ;
-          fill("blue") ;
-          ellipse(x,y,80,80) ;
+          stroke(10);
+          fill("red");
+          ellipse(x,y,60,60);
           cars[index - 1].shapeColor = "red";
           camera.position.x = displayWidth/2;
           camera.position.y = cars[index-1].y;
@@ -94,6 +94,9 @@ class Game {
 
     if(player.distance > 4500){
       gameState = 2;
+      player.rank += 1 ;
+      Player.updateCarsAtEnd(player.rank) ;
+
     }
    
     drawSprites();
@@ -101,5 +104,6 @@ class Game {
 
   end(){
     console.log("Game Ended");
+    console.log(player.rank) ;
   }
 }
